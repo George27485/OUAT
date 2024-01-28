@@ -3,7 +3,7 @@ const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
 
 
-//test line for commit
+//test for commit number 2
 canvas.width = 1020;
 canvas.height = 576;
 
@@ -56,31 +56,31 @@ const image = new Image();
 image.src = './imgs/OUAT.png';
 console.log(image)
 const playerUpImage = new Image()
-playerUpImage.src = './imgs/walkUp.png';
+playerUpImage.src = './imgs/WalkUpp.png';
 const playerDownImage = new Image()
-playerDownImage.src = './imgs/walkFoward.png';
+playerDownImage.src = './imgs/WalkFrontt.png';
 
 const playerLeftImage = new Image();
-playerLeftImage.src = './imgs/WalkLeft.png';
+playerLeftImage.src = './imgs/WalkLeftt.png';
 
 const playerRightImage = new Image();
-playerRightImage.src = './imgs/walkRight.png';
+playerRightImage.src = './imgs/WalkRightt.png';
 const idleFront = new Image()
-idleFront.src = './imgs/idleFront.png';
+idleFront.src = './imgs/IdleFrontt.png';
 const idleRight = new Image()
-idleRight.src = './imgs/idleRight.png'
+idleRight.src = './imgs/IdleLeftt.png'
 const idleBack = new Image();
-idleBack.src = './imgs/idleBack.png'
+idleBack.src = './imgs/IdleBackk.png'
 const idleLeft = new Image();
- idleLeft.src = './imgs/idleLeft.png'
+ idleLeft.src = './imgs/IdleLeftt.png'
  const swordDown = new Image();
- swordDown.src='./imgs/swordDown.png'
+ swordDown.src='./imgs/SwordFront.png'
 const swordRight = new Image();
-swordRight.src = './imgs/swordRight.png'
+swordRight.src = './imgs/SwordRightt.png'
 const swordLeft = new Image();
-swordLeft.src = './imgs/swordLeft.png'
+swordLeft.src = './imgs/SwordLeftt.png'
 const swordUp = new Image();
-swordUp.src = './imgs/swordUp.png'
+swordUp.src = './imgs/SwordUpp.png'
 
 
  
@@ -148,7 +148,7 @@ class Sprite {
             let walkingFrames = 6;
             let swordDownandUpFrames = 4;
             let deathFrames = 3
-            let sworLandRFrames = 2;
+            let sworLandRFrames = 4;
             
 const player = new Sprite({
     position:{
@@ -211,18 +211,14 @@ const keys = {
 
 const movables = [background, ...boundaries]
 
-function rectangularCollision({ rectangle1, rectangle2 }) {
-   return(
-        rectangle1.position.x + rectangle1.width >= rectangle2.position.x &&
-        rectangle1.position.x <= rectangle2.position.x + rectangle2.width &&
-        rectangle1.position.y <= rectangle2.position.y + rectangle2.height &&
-        rectangle1.position.y + rectangle1.height >= rectangle2.position.y
-   )
-    
-
-   
+function rectangularCollision({ rectangle1, rectangle2, margin = 0 }) {
+    return (
+        rectangle1.position.x + rectangle1.width - margin >= rectangle2.position.x &&
+        rectangle1.position.x + margin <= rectangle2.position.x + rectangle2.width &&
+        rectangle1.position.y + margin <= rectangle2.position.y + rectangle2.height &&
+        rectangle1.position.y + rectangle1.height - margin >= rectangle2.position.y
+    );
 }
-
 function animate() {
     
     window.requestAnimationFrame(animate);
@@ -243,6 +239,10 @@ function animate() {
     if (keys.w.pressed && lastKey === 'w') {
         player.moving = true
         player.image = player.sprites.up
+
+
+
+
         for (let i = 0; i < boundaries.length; i++) {
             const boundary = boundaries[i];
             if (
@@ -252,9 +252,10 @@ function animate() {
                         ...boundary,
                         position: {
                             x: boundary.position.x,
-                            y: boundary.position.y + 3,
+                            y: boundary.position.y + 3 ,
                         },
                     },
+                  
                 })
             ) {
                 console.log('Colliding with top boundary');
@@ -269,10 +270,13 @@ function animate() {
             });
         }
     } else if (keys.a.pressed && lastKey === 'a') {
+        player.image = player.sprites.left;
+        player.moving = true;
+    
        
-            player.image = player.sprites.left;
-            player.moving = true;
-            
+    
+
+    
         for (let i = 0; i < boundaries.length; i++) {
             const boundary = boundaries[i];
             if (
@@ -302,6 +306,10 @@ function animate() {
        
         player.moving = true
         player.image = player.sprites.down
+
+
+
+
         for (let i = 0; i < boundaries.length; i++) {
             const boundary = boundaries[i];
             if (
@@ -333,6 +341,10 @@ function animate() {
             player.image = player.sprites.right;
             player.moving = true;
             
+
+
+
+
         for (let i = 0; i < boundaries.length; i++) {
             const boundary = boundaries[i];
             if (
@@ -408,7 +420,7 @@ function animate() {
             player.image = player.sprites.idleB;
            
         }, 500); 
-    }
+    } 
     }
 
 

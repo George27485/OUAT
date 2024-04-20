@@ -3,7 +3,7 @@ const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
 
 
-//test for commit number 2
+//test line for commit
 canvas.width = 1020;
 canvas.height = 576;
 
@@ -23,7 +23,7 @@ class Boundary{
     }
 
     draw(){
-        c.fillStyle = 'rgba(255,0,0,0)'
+        c.fillStyle = 'rgba(255,0,0,255)'
         c.fillRect(this.position.x,this.position.y,this.width,this.height)
     }
 }
@@ -32,13 +32,13 @@ class Boundary{
 
 const boundaries = []
 const offset = {
-    x:-975,
-    y:-780
+    x:0,
+    y:200
 }
 
 collisionsMap.forEach((row, i) => {
     row.forEach((symbol, j ) => {
-        if(symbol === 1462)
+        if(symbol === 132)
         boundaries.push( new Boundary({
             position:{
                 x: j * Boundary.width +offset.x,
@@ -53,7 +53,7 @@ c.fillStyle = 'white';
 c.fillRect(0, 0, canvas.width, canvas.height);
 
 const image = new Image();
-image.src = './imgs/OUAT.png';
+image.src = './imgs/battlezone.png';
 console.log(image)
 const playerUpImage = new Image()
 playerUpImage.src = './imgs/WalkUpp.png';
@@ -68,7 +68,7 @@ playerRightImage.src = './imgs/WalkRightt.png';
 const idleFront = new Image()
 idleFront.src = './imgs/IdleFrontt.png';
 const idleRight = new Image()
-idleRight.src = './imgs/IdleLeftt.png'
+idleRight.src = './imgs/IdleRight.png'
 const idleBack = new Image();
 idleBack.src = './imgs/IdleBackk.png'
 const idleLeft = new Image();
@@ -85,7 +85,7 @@ swordUp.src = './imgs/SwordUpp.png'
 
  
 class Sprite {
-    constructor({ position, velocity, image ,frames={max:1}, sprites}) {
+    constructor({ position, image ,frames={max:1}, sprites}) {
         this.position = position;
         this.image = image;
         this.frames = {...frames, val: 0, elapsed: 0}
@@ -101,8 +101,8 @@ class Sprite {
         const frameWidth = this.image.width / this.frames.max;
         const frameHeight = this.image.height;
 
-        const scaledWidth = frameWidth * 2.3;  
-        const scaledHeight = frameHeight * 2.3;  
+        const scaledWidth = frameWidth * 1;  
+        const scaledHeight = frameHeight * 1;  
 
        
         if (this === player) {
@@ -211,12 +211,12 @@ const keys = {
 
 const movables = [background, ...boundaries]
 
-function rectangularCollision({ rectangle1, rectangle2, margin = 0 }) {
+function rectangularCollision({ rectangle1, rectangle2, padding = 0 }) {
     return (
-        rectangle1.position.x + rectangle1.width - margin >= rectangle2.position.x &&
-        rectangle1.position.x + margin <= rectangle2.position.x + rectangle2.width &&
-        rectangle1.position.y + margin <= rectangle2.position.y + rectangle2.height &&
-        rectangle1.position.y + rectangle1.height - margin >= rectangle2.position.y
+        rectangle1.position.x + rectangle1.width - padding >= rectangle2.position.x &&
+        rectangle1.position.x + padding <= rectangle2.position.x + rectangle2.width &&
+        rectangle1.position.y + padding <= rectangle2.position.y + rectangle2.height &&
+        rectangle1.position.y + rectangle1.height - padding >= rectangle2.position.y
     );
 }
 function animate() {
@@ -252,10 +252,11 @@ function animate() {
                         ...boundary,
                         position: {
                             x: boundary.position.x,
-                            y: boundary.position.y + 3 ,
+                            y: boundary.position.y + 3 
                         },
                     },
-                  
+                    
+                  padding: 0
                 })
             ) {
                 console.log('Colliding with top boundary');
@@ -289,6 +290,7 @@ function animate() {
                             y: boundary.position.y,
                         },
                     },
+                 
                 })
             ) {
                 console.log('Colliding with left boundary');
@@ -322,6 +324,7 @@ function animate() {
                             y: boundary.position.y - 3,
                         },
                     },
+                    
                 })
             ) {
                 console.log('Colliding with bottom boundary');
@@ -357,6 +360,7 @@ function animate() {
                             y: boundary.position.y,
                         },
                     },
+                    
                 })
             ) {
                 console.log('Colliding with right boundary');
@@ -372,10 +376,11 @@ function animate() {
         }
     }
 
-    if(keys.j.pressed && currentDirection === 'down'){
+    /*if(keys.j.pressed && currentDirection === 'down'){
        player.frames.max = swordDownandUpFrames;
         player.image = player.sprites.swordD;
         player.moving = true;
+       
 
         
         
@@ -420,7 +425,7 @@ function animate() {
             player.image = player.sprites.idleB;
            
         }, 500); 
-    } 
+    } */
     }
 
 

@@ -4,8 +4,8 @@ const c = canvas.getContext('2d');
 
 
 //test line for commit
-canvas.width = 1020;
-canvas.height = 576;
+canvas.width = 1120;
+canvas.height = 640;
 
 const collisionsMap = [];
 for(let i = 0; i < collisions.length;i+=70){
@@ -14,12 +14,12 @@ for(let i = 0; i < collisions.length;i+=70){
 }
 
 class Boundary{
-    static width = 48
-    static height = 48
+    static width = 16
+    static height = 16
     constructor({position}){
         this.position = position
-        this.width = 48
-        this.height = 48
+        this.width = 16
+        this.height = 16
     }
 
     draw(){
@@ -33,27 +33,28 @@ class Boundary{
 const boundaries = []
 const offset = {
     x:0,
-    y:200
+    y:0
 }
 
+const xOffset = 0; 
+const yOffset = 0;  
+
 collisionsMap.forEach((row, i) => {
-    row.forEach((symbol, j ) => {
-        if(symbol === 132)
-        boundaries.push( new Boundary({
-            position:{
-                x: j * Boundary.width +offset.x,
-                y: i  * Boundary.height + offset.y
-            }
-        }))
+    row.forEach((symbol, j) => {
+        if (symbol === 132) {
+            const boundaryX = j * Boundary.width + offset.x + xOffset;
+            const boundaryY = i * Boundary.height + offset.y + yOffset;
+            boundaries.push(new Boundary({ position: { x: boundaryX, y: boundaryY } }));
+        }
+    });
+});
 
-    })
-})
 
-c.fillStyle = 'white';
+c.fillStyle = 'black';
 c.fillRect(0, 0, canvas.width, canvas.height);
 
 const image = new Image();
-image.src = './imgs/battlezone.png';
+image.src = './imgs/ouat2.png';
 console.log(image)
 const playerUpImage = new Image()
 playerUpImage.src = './imgs/WalkUpp.png';
